@@ -47,11 +47,11 @@ Only senders listed in the `ALLOWED_SENDERS` secret can post — everything else
    - `ALLOWED_SENDERS` — comma-separated emails allowed to post (e.g. `ab@bbarch.net`)
 4. Push this repo. The workflow in `.github/workflows/email-import.yml` auto-pulls every 15 minutes, or manually from the **Actions** tab.
 
-### "Check now" button (instant pull)
+### Magic Wand button (instant pull)
 
-The wand 🪄 in any page footer opens `admin.html` — a parents-only page with a **✨ Check now** button that runs the importer immediately (new memories live in ~1–2 min).
+The home page has a **🪄 Magic Wand** button that runs the importer immediately (new memories live in ~1–2 min).
 
-First use on each device asks for a GitHub fine-grained token for this repo with **Contents: read & write**. The token is stored only in that device's browser (localStorage), never in the site code — anyone without it can see the button but can't use it (and the worst a leaked token could do is trigger the import or edit this repo's files, so scope it to this repo only).
+The wand needs a "magic key" once per family device: a GitHub fine-grained token for this repo with **Contents: read & write**. It's stored only in that device's browser (localStorage), never in the site code. Anyone can see and click the button, but without the key it just shows a friendly message — and even with it, nothing appears unless a matching email from an allowed sender is waiting.
 
 ## Design notes
 

@@ -359,6 +359,20 @@ main {
   font-size: 0.9em;
 }
 
+/* ---------- Magic Wand box ---------- */
+
+.wand-box {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.wand-status {
+  color: var(--ink-light);
+  font-size: 0.95rem;
+  max-width: 480px;
+  margin: 0.8rem auto 0.3rem;
+}
+
 /* ---------- Parents page ---------- */
 
 .magic-button {
