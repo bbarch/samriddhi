@@ -1,30 +1,61 @@
-/* Gentle magic: an occasional butterfly, and sparkles when hovering artwork. */
+/* Gentle magic: butterflies, drifting clouds, a flying unicorn,
+   and sparkles when hovering over cards.
+   Pages opt into an intensity via <body data-magic="full|calm">:
+     full → home & about (more critters)
+     calm → artwork & photos (rare, so the memories stay the star) */
 (function () {
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduced) return;
 
-  // --- Floating butterflies (one drifts across every so often) ---
-  var BUTTERFLIES = ["\u{1F98B}"]; // 🦋
-  function releaseButterfly() {
-    var b = document.createElement("span");
-    b.className = "butterfly";
-    b.textContent = BUTTERFLIES[0];
-    b.style.setProperty("--y0", 25 + Math.random() * 55 + "vh");
-    b.style.setProperty("--dur", 20 + Math.random() * 14 + "s");
-    document.body.appendChild(b);
-    setTimeout(function () { b.remove(); }, 36000);
-  }
-  setTimeout(releaseButterfly, 3000);
-  setInterval(releaseButterfly, 45000 + Math.random() * 30000);
+  var full = (document.body.dataset.magic || "full") === "full";
 
-  // --- Sparkles on hover over memory cards ---
-  var SPARKS = ["✦", "✧", "✵"]; // ✦ ✧ ✵
+  function spawn(className, emoji, y0, dur, life) {
+    var el = document.createElement("span");
+    el.className = className;
+    el.textContent = emoji;
+    el.style.setProperty("--y0", y0 + "vh");
+    el.style.setProperty("--dur", dur + "s");
+    document.body.appendChild(el);
+    setTimeout(function () { el.remove(); }, life * 1000);
+  }
+
+  // --- Butterflies ---
+  function butterfly() {
+    spawn("butterfly", "\u{1F98B}", 20 + Math.random() * 60, 18 + Math.random() * 12, 34);
+    if (full && Math.random() < 0.4) {
+      setTimeout(function () {
+        spawn("butterfly", "\u{1F98B}", 20 + Math.random() * 60, 18 + Math.random() * 12, 34);
+      }, 2500);
+    }
+  }
+  setTimeout(butterfly, 2000);
+  setInterval(butterfly, full ? 18000 : 55000);
+
+  // --- Drifting clouds (background, very slow) ---
+  function cloud() {
+    spawn("cloud", "☁️", 5 + Math.random() * 30, 70 + Math.random() * 50, 125);
+  }
+  cloud();
+  setTimeout(cloud, 15000);
+  setInterval(cloud, full ? 40000 : 70000);
+
+  // --- Flying unicorn (full-magic pages only) ---
+  if (full) {
+    function unicorn() {
+      spawn("unicorn-flyer", "\u{1F984}", 15 + Math.random() * 40, 14 + Math.random() * 8, 24);
+    }
+    setTimeout(unicorn, 8000);
+    setInterval(unicorn, 50000 + Math.random() * 30000);
+  }
+
+  // --- Sparkles on hover over cards ---
+  var SPARKS = ["✦", "✧", "✵", "⭐"];
   var last = 0;
   document.addEventListener("mousemove", function (e) {
     var card = e.target.closest && e.target.closest(".memory-card, .nav-card");
     if (!card) return;
     var now = Date.now();
-    if (now - last < 160) return; // throttle
+    if (now - last < (full ? 120 : 180)) return; // throttle
     last = now;
     var s = document.createElement("span");
     s.className = "sparkle";

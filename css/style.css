@@ -18,7 +18,7 @@
   --ink: #5a5170;          /* soft plum-grey text */
   --ink-light: #8b83a1;
   --card-bg: #ffffff;
-  --page-bg: linear-gradient(180deg, #fdeef4 0%, #efe9fb 45%, #e9f3fc 100%);
+  --page-bg: linear-gradient(180deg, #fdeef4 0%, #fdf3e4 22%, #efe9fb 48%, #e9f3fc 74%, #e4f6ec 100%);
   --shadow: 0 8px 24px rgba(122, 103, 165, 0.14);
   --radius: 22px;
 
@@ -372,6 +372,126 @@ main {
 
 .site-footer .stars { color: var(--gold); letter-spacing: 0.5em; }
 
+/* ---------- Magic: rainbow, clouds, fairy, unicorn ---------- */
+
+.hero-rainbow {
+  width: min(420px, 80vw);
+  height: 110px;
+  margin: 0 auto 0.8rem;
+  position: relative;
+  background: radial-gradient(circle at 50% 100%,
+    transparent 52%,
+    #f2a4c6 52% 59%,
+    #fac89e 59% 66%,
+    #fbe7a4 66% 73%,
+    #aee0bf 73% 80%,
+    #a8cef0 80% 87%,
+    #c7b3ec 87% 94%,
+    transparent 94%);
+  opacity: 0.85;
+  animation: floaty 6s ease-in-out infinite;
+}
+
+.hero-rainbow::before,
+.hero-rainbow::after {
+  content: "☁️";
+  position: absolute;
+  bottom: -12px;
+  font-size: 2.2rem;
+  filter: brightness(1.05);
+}
+
+.hero-rainbow::before { left: -10px; }
+.hero-rainbow::after { right: -10px; }
+
+.hero-unicorn {
+  font-size: 3.2rem;
+  display: inline-block;
+  animation: floaty 4s ease-in-out infinite;
+}
+
+.fairy {
+  position: absolute;
+  font-size: 1.9rem;
+  pointer-events: none;
+  animation: dance 3.2s ease-in-out infinite;
+}
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+
+@keyframes dance {
+  0%, 100% { transform: translateY(0) rotate(-8deg); }
+  25%      { transform: translateY(-10px) rotate(6deg); }
+  50%      { transform: translateY(-2px) rotate(-4deg); }
+  75%      { transform: translateY(-14px) rotate(8deg); }
+}
+
+.cloud {
+  position: fixed;
+  font-size: 2.8rem;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 1;
+  animation: drift var(--dur, 90s) linear forwards;
+}
+
+@keyframes drift {
+  from { transform: translate(-8vw, var(--y0, 20vh)); }
+  to   { transform: translate(108vw, var(--y0, 20vh)); }
+}
+
+.unicorn-flyer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  font-size: 2.6rem;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transform: scaleX(-1);
+  animation: soar var(--dur, 18s) ease-in-out forwards;
+}
+
+.unicorn-flyer::after {
+  content: "✨";
+  position: absolute;
+  right: 100%;
+  top: 40%;
+  font-size: 1.1rem;
+  transform: scaleX(-1);
+}
+
+@keyframes soar {
+  0%   { transform: scaleX(-1) translate(5vw, var(--y0, 30vh)) rotate(4deg); opacity: 0; }
+  8%   { opacity: 0.9; }
+  30%  { transform: scaleX(-1) translate(-30vw, calc(var(--y0, 30vh) - 8vh)) rotate(-4deg); }
+  60%  { transform: scaleX(-1) translate(-65vw, calc(var(--y0, 30vh) + 4vh)) rotate(4deg); }
+  92%  { opacity: 0.9; }
+  100% { transform: scaleX(-1) translate(-110vw, calc(var(--y0, 30vh) - 6vh)) rotate(-2deg); opacity: 0; }
+}
+
+/* Twinkling gold stars beside the site title */
+.site-header::before,
+.site-header::after {
+  content: "✦";
+  position: absolute;
+  top: 2.2rem;
+  color: var(--gold);
+  font-size: 1.1rem;
+  animation: headertwinkle 2.6s ease-in-out infinite;
+}
+
+.site-header::before { left: 12%; }
+.site-header::after { right: 12%; animation-delay: 1.3s; }
+
+@keyframes headertwinkle {
+  0%, 100% { opacity: 0.25; transform: scale(0.8) rotate(0deg); }
+  50%      { opacity: 1; transform: scale(1.2) rotate(25deg); }
+}
+
 /* ---------- Magic: butterflies, sparkles, stars ---------- */
 
 .butterfly {
@@ -413,6 +533,8 @@ main {
 
 /* Respect reduced-motion preferences */
 @media (prefers-reduced-motion: reduce) {
-  .butterfly, .sparkle { display: none; }
+  .butterfly, .sparkle, .cloud, .unicorn-flyer { display: none; }
+  .hero-rainbow, .hero-unicorn, .fairy,
+  .site-header::before, .site-header::after { animation: none; }
   .main-nav a, .nav-card, .memory-card { transition: none; }
 }
