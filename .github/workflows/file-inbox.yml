@@ -1,0 +1,42 @@
+name: File inbox images
+
+on:
+  push:
+    paths:
+      - "inbox/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: file-inbox
+  cancel-in-progress: false
+
+jobs:
+  file:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install pillow pillow-heif
+
+      - name: File inbox images
+        run: python scripts/file_inbox.py
+
+      - name: Commit and push
+        run: |
+          git config user.name "memory-bot"
+          git config user.email "actions@github.com"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "File new memories from inbox"
+            git push
+          else
+            echo "Nothing to file."
+          fi

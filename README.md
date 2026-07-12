@@ -27,33 +27,21 @@ No server, database, or build needed. You can preview by simply double-clicking 
 
 Note: GitHub Pages on a private repo requires a GitHub Pro/Team plan; on a free plan the repo must be public (the site is still un-indexed — every page has `noindex, nofollow`). For a truly private site on a free plan, consider Cloudflare Pages with access control.
 
-## Adding memories by email
+## Adding memories: the inbox folders
 
-Send an email to the dedicated Gmail account and the site updates itself within ~15 minutes:
+Drop image files into the inbox and push — that's the whole workflow:
 
-- **Subject** → title. Start it with `art:` to file under Artwork (e.g. `art: Rainbow Unicorn`); otherwise it goes to Photos.
-- **Body** → description. A line like `Tags: Unicorn, Drawing` becomes tags.
-- **Attachments** → images (JPG/PNG/HEIC), auto-rotated, resized to 1600px, published.
+1. Copy images into `inbox/artwork/` or `inbox/photos/`.
+2. `git add -A && git commit -m "new memories" && git push`
+3. A GitHub Action files them automatically (usually live within ~2 minutes).
 
-The inbox works like a queue: every email in it gets processed and then archived (moved out of the inbox into All Mail), whether or not it was read. So it is fine to open emails to check they arrived.
+For each image, the **filename becomes the title** (`Rainbow Unicorn.jpg` → "Rainbow Unicorn"), the **date comes from the photo's EXIF** (when it was taken; falls back to today), and the image is auto-rotated, resized to 1600px, and moved to the permanent `images/` folder. The inbox empties itself on success. No secrets, no accounts, no setup.
 
-Only senders listed in the `ALLOWED_SENDERS` secret can post — everything else is ignored.
+To add a description or tags afterwards, edit the entry in `content/artwork.js` or `content/photos.js` — each has an example at the top.
 
-### One-time setup
+Notes: JPG/PNG/HEIC/WebP/GIF are supported. Non-image files are left in the inbox and reported in the Action log. Don't put videos in git (100MB per-file limit).
 
-1. Create a dedicated Gmail account (e.g. `samriddhi.memories@gmail.com`).
-2. Turn on 2-Step Verification, then create an **App password**: myaccount.google.com → Security → 2-Step Verification → App passwords.
-3. In the GitHub repo: **Settings → Secrets and variables → Actions → New repository secret**, add:
-   - `GMAIL_ADDRESS` — the Gmail address
-   - `GMAIL_APP_PASSWORD` — the 16-character app password
-   - `ALLOWED_SENDERS` — comma-separated emails allowed to post (e.g. `ab@bbarch.net`)
-4. Push this repo. The workflow in `.github/workflows/email-import.yml` auto-pulls every 15 minutes, or manually from the **Actions** tab.
-
-### Magic Wand button (instant pull)
-
-The home page has a **🪄 Magic Wand** button that runs the importer immediately (new memories live in ~1–2 min).
-
-The wand needs a "magic key" once per family device: a GitHub fine-grained token for this repo with **Contents: read & write**. It's stored only in that device's browser (localStorage), never in the site code. Anyone can see and click the button, but without the key it just shows a friendly message — and even with it, nothing appears unless a matching email from an allowed sender is waiting.
+You can also run the filer locally before pushing: `python3 scripts/file_inbox.py` (needs `pip install pillow pillow-heif`).
 
 ## Design notes
 
