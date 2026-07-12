@@ -374,40 +374,35 @@ main {
 
 /* ---------- Magic: rainbow, clouds, fairy, unicorn ---------- */
 
-.hero-rainbow {
-  width: min(420px, 80vw);
-  height: 110px;
-  margin: 0 auto 0.8rem;
+.hero-scene {
+  width: min(440px, 84vw);
+  margin: 0 auto 1.2rem;
   position: relative;
-  background: radial-gradient(circle at 50% 100%,
-    transparent 52%,
-    #f2a4c6 52% 59%,
-    #fac89e 59% 66%,
-    #fbe7a4 66% 73%,
-    #aee0bf 73% 80%,
-    #a8cef0 80% 87%,
-    #c7b3ec 87% 94%,
-    transparent 94%);
-  opacity: 0.85;
   animation: floaty 6s ease-in-out infinite;
 }
 
-.hero-rainbow::before,
-.hero-rainbow::after {
-  content: "☁️";
-  position: absolute;
-  bottom: -12px;
-  font-size: 2.2rem;
-  filter: brightness(1.05);
+.hero-rainbow {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 6px 18px rgba(122, 103, 165, 0.18));
 }
 
-.hero-rainbow::before { left: -10px; }
-.hero-rainbow::after { right: -10px; }
+.rainbow-cloud { opacity: 0.95; }
+
+@media (prefers-color-scheme: dark) {
+  .rainbow-cloud { fill: #d9d4ef; opacity: 0.9; }
+}
 
 .hero-unicorn {
-  font-size: 3.2rem;
-  display: inline-block;
-  animation: floaty 4s ease-in-out infinite;
+  position: absolute;
+  bottom: 2%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: clamp(2.6rem, 9vw, 3.6rem);
+  line-height: 1;
+  pointer-events: none;
 }
 
 .fairy {
@@ -534,7 +529,7 @@ main {
 /* Respect reduced-motion preferences */
 @media (prefers-reduced-motion: reduce) {
   .butterfly, .sparkle, .cloud, .unicorn-flyer { display: none; }
-  .hero-rainbow, .hero-unicorn, .fairy,
+  .hero-scene, .fairy,
   .site-header::before, .site-header::after { animation: none; }
   .main-nav a, .nav-card, .memory-card { transition: none; }
 }
