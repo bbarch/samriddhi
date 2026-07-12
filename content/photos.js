@@ -18,5 +18,10 @@
    ============================================================ */
 
 const PHOTOS = [
+  {
+    title: "haha",
+    image: "images/photos/2026-07-haha.jpg",
+    date: "July 2026",
+  },
   // Add entries here, newest first.
 ];
