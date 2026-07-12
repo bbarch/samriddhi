@@ -19,6 +19,11 @@
 
 const PHOTOS = [
   {
+    title: "2026-07-haha",
+    image: "images/photos/2026-07-2026-07-haha.jpg",
+    date: "July 2026",
+  },
+  {
     title: "haha",
     image: "images/photos/2026-07-haha.jpg",
     date: "July 2026",
