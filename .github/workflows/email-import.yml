@@ -1,8 +1,10 @@
 name: Import memories from email
 
 on:
+  repository_dispatch:
+    types: [new-memory]       # instant poke from the Gmail Apps Script
   schedule:
-    - cron: "*/15 * * * *"   # every 15 minutes
+    - cron: "0 * * * *"       # hourly safety net
   workflow_dispatch:          # or run manually from the Actions tab
 
 permissions:

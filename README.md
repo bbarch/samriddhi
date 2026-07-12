@@ -45,7 +45,18 @@ Only senders listed in the `ALLOWED_SENDERS` secret can post — everything else
    - `GMAIL_ADDRESS` — the Gmail address
    - `GMAIL_APP_PASSWORD` — the 16-character app password
    - `ALLOWED_SENDERS` — comma-separated emails allowed to post (e.g. `ab@bbarch.net`)
-4. Push this repo. The workflow in `.github/workflows/email-import.yml` runs every 15 minutes (or trigger it manually from the **Actions** tab).
+4. Push this repo. The workflow in `.github/workflows/email-import.yml` runs when triggered (see below), hourly as a safety net, or manually from the **Actions** tab.
+
+### Instant publishing (optional, ~1–2 min instead of hourly)
+
+A tiny Google Apps Script inside the Gmail account pokes the workflow the minute mail arrives:
+
+1. Signed in as the dedicated Gmail account, open script.google.com → **New project**.
+2. Paste in `scripts/gmail_trigger.gs`.
+3. Project Settings (gear) → **Script Properties** → add `GITHUB_TOKEN` = a fine-grained token for this repo with **Contents: read & write**.
+4. Triggers (clock icon) → **Add Trigger** → function `checkAndDispatch`, Time-driven, **Every minute**.
+
+Send a test email — the site should update within a minute or two.
 
 ## Design notes
 
