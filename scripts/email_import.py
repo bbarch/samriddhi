@@ -159,22 +159,27 @@ def main():
     imap = imaplib.IMAP4_SSL("imap.gmail.com")
     imap.login(address, password)
     imap.select("INBOX")
-    _, data = imap.search(None, "UNSEEN")
+    # The inbox is a queue: process everything in it (read or unread),
+    # then archive it, so peeking at emails in Gmail changes nothing.
+    _, data = imap.search(None, "ALL")
     ids = data[0].split()
-    print(f"{len(ids)} new email(s)")
+    print(f"{len(ids)} email(s) waiting in inbox")
 
     added = 0
     for msg_id in ids:
-        _, msg_data = imap.fetch(msg_id, "(RFC822)")  # fetch marks it \Seen
+        _, msg_data = imap.fetch(msg_id, "(RFC822)")
         msg = email.message_from_bytes(msg_data[0][1], policy=email.policy.default)
         sender = email.utils.parseaddr(msg.get("From", ""))[1].lower()
         print(f"from {sender}: {msg.get('Subject', '')}")
         if allowed and sender not in allowed:
-            print("  sender not in ALLOWED_SENDERS, ignoring")
-            continue
-        if process_message(msg):
+            print("  sender not in ALLOWED_SENDERS, archiving unused")
+        elif process_message(msg):
             added += 1
+        # Archive: with Gmail's default IMAP settings, deleting from INBOX
+        # removes the Inbox label; the email stays safe in All Mail.
+        imap.store(msg_id, "+FLAGS", "\\Deleted")
 
+    imap.expunge()
     imap.logout()
     print(f"done: {added} entrie(s) added")
     # Signal to the workflow whether anything changed

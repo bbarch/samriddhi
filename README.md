@@ -35,6 +35,8 @@ Send an email to the dedicated Gmail account and the site updates itself within 
 - **Body** → description. A line like `Tags: Unicorn, Drawing` becomes tags.
 - **Attachments** → images (JPG/PNG/HEIC), auto-rotated, resized to 1600px, published.
 
+The inbox works like a queue: every email in it gets processed and then archived (moved out of the inbox into All Mail), whether or not it was read. So it is fine to open emails to check they arrived.
+
 Only senders listed in the `ALLOWED_SENDERS` secret can post — everything else is ignored.
 
 ### One-time setup
