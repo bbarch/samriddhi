@@ -70,6 +70,8 @@ def save_image(part, dest_dir, slug, index):
     except Exception as e:
         print(f"  skipping unreadable attachment ({e})")
         return None
+    if img.width < 200 or img.height < 200:
+        return None  # signature icons, logos, emoji
     if img.width > MAX_WIDTH:
         img = img.resize((MAX_WIDTH, int(img.height * MAX_WIDTH / img.width)))
     if img.mode in ("RGBA", "P"):
@@ -121,10 +123,15 @@ def process_message(msg):
     slug = f"{when.strftime('%Y-%m')}-{slugify(subject)}"
 
     saved = []
-    for part in msg.iter_attachments():
-        if part.get_content_maintype() != "image" and not (
+    # Walk every part: phones often embed photos "inline" rather than as
+    # attachments, so we accept any image part however the mail app labels it.
+    for part in msg.walk():
+        if part.get_content_maintype() == "multipart":
+            continue
+        is_image = part.get_content_maintype() == "image" or (
             part.get_filename() or ""
-        ).lower().endswith((".jpg", ".jpeg", ".png", ".gif", ".heic", ".webp")):
+        ).lower().endswith((".jpg", ".jpeg", ".png", ".gif", ".heic", ".webp"))
+        if not is_image:
             continue
         filename = save_image(part, ROOT / "images" / kind, slug, len(saved) + 1)
         if filename:
