@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>For Parents · Samriddhi's Magical World</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪄</text></svg>">
+</head>
+<body data-magic="calm">
+
+  <header class="site-header">
+    <h1 class="site-title"><a href="index.html" style="color:inherit;-webkit-text-fill-color:inherit;">Samriddhi's Magical World</a></h1>
+  </header>
+
+  <nav class="main-nav">
+    <a href="index.html">🏠 Home</a>
+    <a href="artwork.html">🎨 Artwork</a>
+    <a href="photos.html">📸 Photos</a>
+    <a href="about.html">🌟 About Me</a>
+  </nav>
+
+  <main>
+    <h2 class="page-heading">🪄 For Parents</h2>
+    <p class="page-intro">Emailed a new memory? Pull it onto the site right now instead of waiting for the next auto-check.</p>
+
+    <div class="empty-state" style="max-width:520px;">
+      <div class="icon">📬</div>
+      <h3>Check for new memories</h3>
+      <p id="status">Runs the email importer immediately. New memories appear on the site a minute or two later.</p>
+      <p>
+        <button id="pull-btn" class="magic-button">✨ Check now</button>
+      </p>
+      <p id="token-row" style="display:none;">
+        <input id="token-input" type="password" placeholder="Paste GitHub token" class="token-input">
+        <button id="save-btn" class="magic-button">Save &amp; check</button>
+      </p>
+      <p class="fineprint">
+        The token is kept only in this browser, never on the website.
+        <a href="#" id="forget">Forget saved token</a>
+      </p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="stars">✦ ✧ ✦</div>
+    <p>Made with love, kept forever.</p>
+  </footer>
+
+  <script src="js/magic.js"></script>
+  <script>
+    var REPO = "bbarch/samriddhi";
+    var KEY = "memory-pull-token";
+    var status = document.getElementById("status");
+    var tokenRow = document.getElementById("token-row");
+    var pullBtn = document.getElementById("pull-btn");
+
+    function setStatus(msg) { status.textContent = msg; }
+
+    function dispatch(token) {
+      setStatus("Asking the magic mailroom to check…");
+      pullBtn.disabled = true;
+      fetch("https://api.github.com/repos/" + REPO + "/dispatches", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + token,
+          "Accept": "application/vnd.github+json"
+        },
+        body: JSON.stringify({ event_type: "new-memory" })
+      }).then(function (res) {
+        pullBtn.disabled = false;
+        if (res.status === 204) {
+          localStorage.setItem(KEY, token);
+          tokenRow.style.display = "none";
+          setStatus("✨ Import started! New memories will appear in a minute or two — then refresh the galleries.");
+        } else if (res.status === 401 || res.status === 403 || res.status === 404) {
+          localStorage.removeItem(KEY);
+          tokenRow.style.display = "block";
+          setStatus("That token was not accepted (" + res.status + "). Paste a valid token to try again.");
+        } else {
+          setStatus("Hmm, GitHub answered with status " + res.status + ". Try again in a moment.");
+        }
+      }).catch(function () {
+        pullBtn.disabled = false;
+        setStatus("Could not reach GitHub — check your connection and try again.");
+      });
+    }
+
+    pullBtn.addEventListener("click", function () {
+      var token = localStorage.getItem(KEY);
+      if (token) {
+        dispatch(token);
+      } else {
+        tokenRow.style.display = "block";
+        setStatus("First time on this device: paste a GitHub token for " + REPO +
+          " (fine-grained, Contents read & write). It will be remembered on this device only.");
+      }
+    });
+
+    document.getElementById("save-btn").addEventListener("click", function () {
+      var token = document.getElementById("token-input").value.trim();
+      if (token) dispatch(token);
+    });
+
+    document.getElementById("forget").addEventListener("click", function (e) {
+      e.preventDefault();
+      localStorage.removeItem(KEY);
+      tokenRow.style.display = "none";
+      setStatus("Saved token forgotten on this device.");
+    });
+  </script>
+</body>
+</html>

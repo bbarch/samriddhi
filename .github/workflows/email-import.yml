@@ -2,9 +2,9 @@ name: Import memories from email
 
 on:
   repository_dispatch:
-    types: [new-memory]       # instant poke from the Gmail Apps Script
+    types: [new-memory]       # instant poke from the "Check now" button on the site
   schedule:
-    - cron: "0 * * * *"       # hourly safety net
+    - cron: "*/15 * * * *"    # auto-pull every 15 minutes
   workflow_dispatch:          # or run manually from the Actions tab
 
 permissions:

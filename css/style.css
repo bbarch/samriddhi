@@ -359,6 +359,44 @@ main {
   font-size: 0.9em;
 }
 
+/* ---------- Parents page ---------- */
+
+.magic-button {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(90deg, var(--lavender), var(--pink));
+  border: none;
+  border-radius: 999px;
+  padding: 0.7rem 1.8rem;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease;
+}
+
+.magic-button:hover { transform: translateY(-2px); }
+.magic-button:disabled { opacity: 0.6; cursor: wait; transform: none; }
+
+@media (prefers-color-scheme: dark) {
+  .magic-button { color: #2c2745; }
+}
+
+.token-input {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--ink);
+  background: var(--lavender-soft);
+  border: 1px solid var(--lavender);
+  border-radius: 999px;
+  padding: 0.6rem 1.2rem;
+  width: min(280px, 100%);
+  margin-right: 0.5rem;
+}
+
+.fineprint { font-size: 0.8rem; color: var(--ink-light); }
+.fineprint a { color: var(--ink-light); }
+
 /* ---------- Footer ---------- */
 
 .site-footer {
