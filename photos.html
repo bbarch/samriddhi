@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Photos · Samriddhi's Magical World</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📸</text></svg>">
+</head>
+<body>
+
+  <header class="site-header">
+    <h1 class="site-title"><a href="index.html" style="color:inherit;-webkit-text-fill-color:inherit;">Samriddhi's Magical World</a></h1>
+  </header>
+
+  <nav class="main-nav">
+    <a href="index.html">🏠 Home</a>
+    <a href="artwork.html">🎨 Artwork</a>
+    <a href="photos.html" class="active">📸 Photos</a>
+    <a href="about.html">🌟 About Me</a>
+  </nav>
+
+  <main>
+    <h2 class="page-heading">📸 Photos</h2>
+    <p class="page-intro">Adventures, festivals, family and everything in between.</p>
+    <div id="photos-gallery"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="stars">✦ ✧ ✦</div>
+    <p>Made with love, kept forever.</p>
+  </footer>
+
+  <script src="content/photos.js"></script>
+  <script src="js/gallery.js"></script>
+  <script src="js/magic.js"></script>
+  <script>renderCards("photos-gallery", PHOTOS, "photos");</script>
+</body>
+</html>
