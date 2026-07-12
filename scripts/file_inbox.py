@@ -68,7 +68,19 @@ def insert_entry(kind, const_name, entry):
 
 
 def file_image(path, kind, const_name):
-    title = path.stem.strip()
+    # Strip a filed-style date prefix if present, so re-dropping an
+    # already-filed image can't create "2026-07-2026-07-…" names.
+    title = re.sub(r"^\d{4}-\d{2}-", "", path.stem).strip()
+
+    # Duplicate guard: if an entry with this title already exists,
+    # leave the file in the inbox and warn instead of double-publishing.
+    content_text = (ROOT / "content" / f"{kind}.js").read_text(encoding="utf-8")
+    entries_part = content_text[content_text.find(f"const {const_name}"):]
+    if f"title: {js_string(title)}," in entries_part:
+        print(f"  SKIPPED {path.name}: \"{title}\" is already on the site. "
+              f"If this is a NEW memory, rename the file and push again.")
+        return False
+
     try:
         img = Image.open(path)
         img = ImageOps.exif_transpose(img)
