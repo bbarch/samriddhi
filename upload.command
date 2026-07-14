@@ -8,11 +8,6 @@ cd "$(dirname "$0")" || exit 1
 echo "✨ Samriddhi's Magical World — uploader"
 echo ""
 
-ART=$(find inbox/artwork -type f ! -name "README.txt" ! -name ".*" 2>/dev/null | wc -l | tr -d ' ')
-PHO=$(find inbox/photos  -type f ! -name "README.txt" ! -name ".*" 2>/dev/null | wc -l | tr -d ' ')
-echo "Inbox: $ART artwork, $PHO photo(s)"
-echo ""
-
 echo "Getting latest from GitHub first..."
 if ! git pull --rebase origin main; then
   echo ""
@@ -20,6 +15,12 @@ if ! git pull --rebase origin main; then
   read -n 1 -s -r -p "Press any key to close..."
   exit 1
 fi
+
+ART=$(find inbox/artwork -type f ! -name "README.txt" ! -name ".*" 2>/dev/null | wc -l | tr -d ' ')
+PHO=$(find inbox/photos  -type f ! -name "README.txt" ! -name ".*" 2>/dev/null | wc -l | tr -d ' ')
+echo ""
+echo "Waiting to upload: $ART artwork, $PHO photo(s)"
+echo ""
 
 git add -A
 if git diff --cached --quiet; then
