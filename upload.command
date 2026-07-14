@@ -23,13 +23,18 @@ echo "Waiting to upload: $ART artwork, $PHO photo(s)"
 echo ""
 
 git add -A
-if git diff --cached --quiet; then
+if ! git diff --cached --quiet; then
+  git commit -m "new memories"
+fi
+
+# Push anything that isn't on GitHub yet (new files OR earlier commits)
+AHEAD=$(git rev-list --count origin/main..HEAD 2>/dev/null || echo 0)
+if [ "$AHEAD" -eq 0 ]; then
   echo ""
   echo "Nothing new to upload — the site already has everything."
 else
-  git commit -m "new memories"
   echo ""
-  echo "Uploading..."
+  echo "Uploading $AHEAD change(s)..."
   if git push origin main; then
     echo ""
     echo "✅ Done! New memories will be live on samriddhisingh.in in a minute or two."
