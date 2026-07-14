@@ -19,6 +19,11 @@
 
 const ARTWORK = [
   {
+    title: "capy with lots of apps",
+    image: "images/artwork/2026-07-capy-with-lots-of-apps.jpg",
+    date: "July 2026",
+  },
+  {
     title: "fairy",
     image: "images/artwork/2026-07-fairy.jpg",
     date: "July 2026",
