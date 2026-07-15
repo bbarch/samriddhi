@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Capy's Clinic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦴</text></svg>">
+  <style>
+    .clinic-stage {
+      max-width: 520px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .clinic-stage svg { width: 100%; height: auto; display: block; }
+    .clinic-stage svg g { transform-box: fill-box; }
+
+    #caption {
+      text-align: center;
+      font-family: var(--font-hand);
+      font-size: 1.9rem;
+      min-height: 2.6rem;
+      margin: 0.4rem 0 1.2rem;
+    }
+
+    .capy-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.7rem;
+    }
+    .capy-btn {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      background: var(--card-bg);
+      border: none;
+      border-radius: 999px;
+      padding: 0.65rem 1.3rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease;
+    }
+    .capy-btn:hover { transform: translateY(-3px); }
+    .capy-btn.active {
+      background: linear-gradient(90deg, var(--lavender), var(--pink));
+      color: #fff;
+    }
+    @media (prefers-color-scheme: dark) { .capy-btn.active { color: #2c2745; } }
+
+    /* ---------- Animations ---------- */
+    .do-xray #scanline { opacity: 1 !important; animation: scan 1.6s linear infinite; }
+    @keyframes scan {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(268px); }
+    }
+    .do-xray #skeleton { animation: bone-glow 1.6s ease-in-out infinite; }
+    @keyframes bone-glow {
+      0%, 100% { opacity: 0.55; }
+      50%      { opacity: 1; }
+    }
+    .do-xray #screen-flash { animation: xflash 1.6s ease-out infinite; }
+    @keyframes xflash {
+      0%, 12%, 100% { opacity: 0; }
+      4%            { opacity: 0.5; }
+    }
+
+    .do-medicine #medicine { opacity: 1 !important; }
+    .do-medicine #medicine > g { animation: pour 1.8s ease-in-out infinite; transform-origin: 85% 20%; }
+    @keyframes pour {
+      0%, 15%, 85%, 100% { transform: rotate(0deg); }
+      40%, 60%           { transform: rotate(-38deg) translateY(6px); }
+    }
+    .do-medicine #med-drops circle { animation: drop-fall 0.9s ease-in infinite; }
+    .do-medicine #med-drops circle:nth-child(2) { animation-delay: 0.3s; }
+    @keyframes drop-fall {
+      0%   { transform: translateY(0); opacity: 0; }
+      25%  { opacity: 1; }
+      100% { transform: translateY(26px); opacity: 0; }
+    }
+    .do-medicine #hearts { opacity: 1 !important; }
+    .do-medicine #hearts text { animation: heart-rise 2s ease-out infinite; }
+    .do-medicine #hearts text:nth-child(2) { animation-delay: 0.7s; }
+    .do-medicine #hearts text:nth-child(3) { animation-delay: 1.3s; }
+    @keyframes heart-rise {
+      0%   { transform: translateY(0) scale(0.5); opacity: 0; }
+      20%  { opacity: 1; }
+      100% { transform: translateY(-60px) scale(1.2); opacity: 0; }
+    }
+    .do-medicine #capy-outline { animation: happy-wiggle 1.2s ease-in-out infinite; transform-origin: 50% 90%; }
+    @keyframes happy-wiggle {
+      0%, 100% { transform: rotate(-1deg); }
+      50%      { transform: rotate(1.4deg); }
+    }
+
+    .do-inject #syringe { opacity: 1 !important; animation: poke 3s ease-in-out infinite; }
+    @keyframes poke {
+      0%, 100%      { transform: translate(26px, -8px) rotate(-4deg); opacity: 0; }
+      15%           { opacity: 1; }
+      35%, 45%      { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+      60%           { transform: translate(10px, -4px); opacity: 1; }
+      85%           { opacity: 0; }
+    }
+    .do-inject #scene { animation: startle 3s ease-in-out infinite; transform-origin: 50% 100%; }
+    @keyframes startle {
+      0%, 30%, 60%, 100% { transform: translateY(0); }
+      38%                { transform: translateY(-10px); }
+      44%                { transform: translateY(0); }
+    }
+    .do-inject #bandage { animation: bandage-show 3s linear infinite; }
+    @keyframes bandage-show {
+      0%, 48%   { opacity: 0; }
+      58%, 92%  { opacity: 1; }
+      100%      { opacity: 0; }
+    }
+    .do-inject #brave-star { animation: bandage-show 3s linear infinite; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .clinic-stage *, .capy-btn { animation: none !important; transition: none; }
+    }
+  </style>
+</head>
+<body data-magic="calm">
+
+  <header class="site-header">
+    <h1 class="site-title"><a href="capy.html" style="color:inherit;-webkit-text-fill-color:inherit;">Capy's Clinic</a></h1>
+    <p class="site-tagline">a secret inside the secret?! 🩺🤫</p>
+  </header>
+
+  <main>
+    <div class="clinic-stage" id="stage">
+      <svg viewBox="0 0 460 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="An X-ray of a friendly capybara showing its skeleton">
+        <!-- x-ray screen -->
+        <rect x="10" y="10" width="440" height="316" rx="26" fill="#20263f" stroke="#4a5378" stroke-width="4"/>
+        <rect id="screen-flash" x="10" y="10" width="440" height="316" rx="26" fill="#bfe6ff" opacity="0"/>
+        <!-- screen corner markers -->
+        <g stroke="#4a5378" stroke-width="3" fill="none" opacity="0.8">
+          <path d="M 30 42 v -12 h 12"/><path d="M 430 42 v -12 h -12"/>
+          <path d="M 30 294 v 12 h 12"/><path d="M 430 294 v 12 h -12"/>
+        </g>
+
+        <g id="scene">
+          <!-- capy body outline (matches the real Capy) -->
+          <g id="capy-outline" fill="rgba(159,195,232,0.07)" stroke="#7fa8d9" stroke-width="3" stroke-dasharray="8 7" stroke-linecap="round">
+            <rect x="128" y="152" width="230" height="156" rx="72"/>
+            <rect x="58" y="88" width="152" height="122" rx="46"/>
+            <ellipse cx="120" cy="94" rx="15" ry="13"/>
+            <ellipse cx="178" cy="92" rx="15" ry="13"/>
+            <rect x="176" y="264" width="28" height="46" rx="13"/>
+            <rect x="286" y="262" width="34" height="48" rx="15"/>
+            <rect x="148" y="206" width="24" height="74" rx="12"/>
+          </g>
+
+          <!-- skeleton -->
+          <g id="skeleton" fill="#f3efdf" stroke="#f3efdf">
+            <!-- skull -->
+            <rect x="84" y="112" width="96" height="66" rx="24" fill="none" stroke-width="6"/>
+            <rect x="66" y="132" width="26" height="26" rx="8" fill="none" stroke-width="5"/>
+            <circle cx="146" cy="134" r="9" fill="none" stroke-width="5"/>
+            <rect x="90" y="176" width="9" height="12" rx="2" stroke="none"/>
+            <rect x="102" y="176" width="9" height="12" rx="2" stroke="none"/>
+            <!-- spine -->
+            <g stroke="none">
+              <circle cx="206" cy="164" r="6"/><circle cx="228" cy="159" r="6"/>
+              <circle cx="250" cy="157" r="6"/><circle cx="272" cy="158" r="6"/>
+              <circle cx="294" cy="162" r="6"/><circle cx="314" cy="169" r="6"/>
+              <circle cx="331" cy="179" r="6"/>
+            </g>
+            <!-- ribs -->
+            <g fill="none" stroke-width="5" stroke-linecap="round">
+              <path d="M 210 170 q -12 44 6 74"/>
+              <path d="M 234 165 q -12 46 6 78"/>
+              <path d="M 258 163 q -10 48 8 80"/>
+              <path d="M 282 166 q -8 46 10 76"/>
+            </g>
+            <!-- pelvis -->
+            <ellipse cx="322" cy="196" rx="18" ry="14" fill="none" stroke-width="6"/>
+            <!-- legs -->
+            <g fill="none" stroke-width="5" stroke-linecap="round">
+              <path d="M 316 208 L 306 252 L 304 298"/>
+              <path d="M 190 218 L 190 258 L 192 302"/>
+              <path d="M 160 218 L 160 272"/>
+            </g>
+            <g stroke="none">
+              <circle cx="306" cy="252" r="5"/>
+              <circle cx="190" cy="258" r="5"/>
+              <circle cx="160" cy="272" r="4"/>
+            </g>
+            <!-- paws -->
+            <g fill="none" stroke-width="4" stroke-linecap="round">
+              <path d="M 298 300 h 14"/>
+              <path d="M 186 304 h 14"/>
+            </g>
+          </g>
+
+          <!-- bandage on the rump (after injection) -->
+          <g id="bandage" opacity="0">
+            <g transform="translate(322, 190) rotate(40)">
+              <rect x="-22" y="-8" width="44" height="16" rx="7" fill="#f2d7a0" stroke="#d9b878" stroke-width="2.5"/>
+              <circle cx="-8" cy="0" r="1.6" fill="#d9b878"/><circle cx="0" cy="0" r="1.6" fill="#d9b878"/>
+              <circle cx="8" cy="0" r="1.6" fill="#d9b878"/>
+            </g>
+          </g>
+          <text id="brave-star" x="352" y="160" font-size="24" fill="#e8b64c" opacity="0">✦</text>
+        </g>
+
+        <!-- scan line -->
+        <rect id="scanline" x="24" y="28" width="412" height="8" rx="4" fill="#9fe0ff" opacity="0"/>
+
+        <!-- medicine bottle + spoon -->
+        <g id="medicine" opacity="0">
+          <g>
+            <g transform="translate(30, 130)">
+              <rect x="0" y="10" width="30" height="40" rx="7" fill="#f2a4c6" stroke="#c9799f" stroke-width="3"/>
+              <rect x="8" y="0" width="14" height="12" rx="3" fill="#dcd6ec" stroke="#c9799f" stroke-width="2.5"/>
+              <rect x="5" y="22" width="20" height="16" rx="3" fill="#fdeef4" stroke="none"/>
+            </g>
+          </g>
+          <g id="med-drops" fill="#f2a4c6">
+            <circle cx="76" cy="152" r="4"/>
+            <circle cx="84" cy="146" r="3"/>
+          </g>
+        </g>
+
+        <!-- floating hearts -->
+        <g id="hearts" opacity="0">
+          <text x="220" y="120" font-size="26" fill="#f2a4c6">♥</text>
+          <text x="270" y="140" font-size="20" fill="#e88bb4">♥</text>
+          <text x="180" y="105" font-size="17" fill="#f6c6d8">♥</text>
+        </g>
+
+        <!-- syringe (small and friendly) -->
+        <g id="syringe" opacity="0">
+          <g transform="translate(352, 176) rotate(30)">
+            <rect x="0" y="0" width="48" height="16" rx="4" fill="#dbeafd" stroke="#6f9cc4" stroke-width="3"/>
+            <rect x="46" y="3" width="14" height="10" rx="2" fill="#a8cef0" stroke="#6f9cc4" stroke-width="2.5"/>
+            <path d="M 0 8 h -14" stroke="#8b95a8" stroke-width="3" stroke-linecap="round"/>
+            <g stroke="#6f9cc4" stroke-width="2">
+              <path d="M 12 3 v 10"/><path d="M 24 3 v 10"/><path d="M 36 3 v 10"/>
+            </g>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <p id="caption">Welcome to the clinic, Dr. Samriddhi!</p>
+
+    <div class="capy-buttons">
+      <button class="capy-btn" data-act="xray">🩻 Take an X-ray</button>
+      <button class="capy-btn" data-act="medicine">💊 Give medicine</button>
+      <button class="capy-btn" data-act="inject">💉 Give an injection</button>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="stars">✦ ✧ ✦</div>
+    <p><a href="capy.html" style="color:inherit;">← back to Capy's room</a></p>
+  </footer>
+
+  <script src="js/magic.js"></script>
+  <script>
+    (function () {
+      var stage = document.getElementById("stage");
+      var caption = document.getElementById("caption");
+      var buttons = document.querySelectorAll(".capy-btn");
+      var timer = null;
+
+      var captions = {
+        xray:     "Beep beep… scanning Capy! Look at those bones! 🦴",
+        medicine: "A spoonful for a brave capy! Feeling better already ♥",
+        inject:   "Tiny poke… all done! What a brave patient! ⭐"
+      };
+
+      buttons.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var act = btn.dataset.act;
+          clearTimeout(timer);
+          stage.className = "clinic-stage";
+          buttons.forEach(function (b) { b.classList.remove("active"); });
+          void stage.offsetWidth;
+          stage.className = "clinic-stage do-" + act;
+          btn.classList.add("active");
+          caption.textContent = captions[act];
+          timer = setTimeout(function () {
+            stage.className = "clinic-stage";
+            btn.classList.remove("active");
+            caption.textContent = "Welcome to the clinic, Dr. Samriddhi!";
+          }, 6000);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -94,7 +94,9 @@
     .do-shower #bubbles,
     .do-comb #comb,
     .do-comb #hairlines,
-    .do-fart #stink { opacity: 1 !important; }
+    .do-fart #stink,
+    .do-eat #food,
+    .do-drink #cup { opacity: 1 !important; }
     .do-photo #mouth-neutral { opacity: 0 !important; }
 
     .do-brush #toothbrush { animation: brush-move 0.4s ease-in-out infinite alternate; }
@@ -161,6 +163,30 @@
       20%  { opacity: 0.8; }
       100% { transform: translate(34px, -30px) scale(1.5); opacity: 0; }
     }
+
+    .do-eat #food g { animation: food-bite 2.6s linear infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+    @keyframes food-bite {
+      0%        { transform: scale(1); }
+      20%       { transform: scale(0.85) rotate(-3deg); }
+      40%       { transform: scale(0.66) rotate(3deg); }
+      60%       { transform: scale(0.48) rotate(-3deg); }
+      80%       { transform: scale(0.28) rotate(3deg); }
+      92%, 100% { transform: scale(0.04); }
+    }
+    .do-eat #head { animation: capy-chew 0.4s ease-in-out infinite; transform-origin: 70% 80%; }
+    @keyframes capy-chew {
+      0%, 100% { transform: rotate(0deg) translateY(0); }
+      50%      { transform: rotate(-2.5deg) translateY(3px); }
+    }
+
+    .do-drink #cup > g { animation: cup-tilt 1.7s ease-in-out infinite; transform-box: fill-box; transform-origin: 90% 15%; }
+    @keyframes cup-tilt {
+      0%, 12%, 88%, 100% { transform: rotate(0deg); }
+      40%, 62%           { transform: rotate(26deg) translateY(-8px); }
+    }
+    .do-drink #head { animation: capy-chew 0.8s ease-in-out infinite; transform-origin: 70% 80%; }
+    .do-drink #gulp-drops circle { animation: twinkle-loop 0.9s ease-in-out infinite; transform-box: fill-box; }
+    .do-drink #gulp-drops circle:nth-child(2) { animation-delay: 0.45s; }
 
     @keyframes twinkle-loop {
       0%, 100% { opacity: 0; transform: scale(0.5); }
@@ -300,6 +326,30 @@
           <text x="398" y="66" font-size="22" fill="#e8b64c">✦</text>
         </g>
 
+        <!-- watermelon slice -->
+        <g id="food" opacity="0">
+          <g transform="translate(26, 192)">
+            <path d="M 30 0 L 60 36 A 42 42 0 0 1 0 36 Z" fill="#f2788a" stroke="#c9556b" stroke-width="2.5"/>
+            <path d="M 0 36 A 42 42 0 0 0 60 36" fill="none" stroke="#7fbf7a" stroke-width="7" stroke-linecap="round"/>
+            <ellipse cx="24" cy="22" rx="2.5" ry="4" fill="#463625" transform="rotate(-15 24 22)"/>
+            <ellipse cx="36" cy="26" rx="2.5" ry="4" fill="#463625" transform="rotate(12 36 26)"/>
+            <ellipse cx="29" cy="34" rx="2.5" ry="4" fill="#463625"/>
+          </g>
+        </g>
+
+        <!-- water cup -->
+        <g id="cup" opacity="0">
+          <g transform="translate(28, 194)">
+            <rect x="0" y="0" width="42" height="50" rx="7" fill="#dbeafd" stroke="#6f9cc4" stroke-width="3"/>
+            <rect x="4" y="10" width="34" height="36" rx="5" fill="#a8cef0" stroke="none"/>
+            <path d="M 32 2 L 44 -26" stroke="#f2a4c6" stroke-width="5" stroke-linecap="round"/>
+          </g>
+          <g id="gulp-drops" fill="#a8cef0">
+            <circle cx="66" cy="180" r="4"/>
+            <circle cx="78" cy="192" r="3"/>
+          </g>
+        </g>
+
         <!-- comb -->
         <g id="comb" opacity="0">
           <g transform="translate(96, 18)">
@@ -319,6 +369,8 @@
       <button class="capy-btn" data-act="brush">🪥 Brush teeth</button>
       <button class="capy-btn" data-act="jump">🦘 Jump up &amp; down</button>
       <button class="capy-btn" data-act="photo">📸 Smile for a photo</button>
+      <button class="capy-btn" data-act="eat">🍉 Eat food</button>
+      <button class="capy-btn" data-act="drink">💧 Drink water</button>
       <button class="capy-btn" data-act="shower">🚿 Take a shower</button>
       <button class="capy-btn" data-act="comb">💇 Comb hair</button>
       <button class="capy-btn" data-act="scratch">👃 Scratch your nose</button>
@@ -343,11 +395,18 @@
         brush:   "Scrub scrub scrub! Sparkly teeth! ✨",
         jump:    "Boing! Boing! Boing!",
         photo:   "Say cheeeese!",
+        eat:     "Nom nom nom! Crunchy munchy!",
+        drink:   "Glug glug glug… ahhh!",
         shower:  "Splish splash splish!",
         comb:    "So fluffy, so handsome!",
         scratch: "Scratchy scratchy… ahhh!",
         fart:    "Oopsie!! Teehee! 💨"
       };
+
+      // The secret inside the secret: click Capy herself…
+      document.getElementById("whole").addEventListener("click", function () {
+        window.location.href = "capy-xray.html";
+      });
 
       buttons.forEach(function (btn) {
         btn.addEventListener("click", function () {
