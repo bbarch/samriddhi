@@ -164,7 +164,7 @@
       100% { transform: translate(34px, -30px) scale(1.5); opacity: 0; }
     }
 
-    .do-eat #food g { animation: food-bite 2.6s linear infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+    .do-eat #food-anim { animation: food-bite 2.6s linear infinite; transform-box: fill-box; transform-origin: 50% 100%; }
     @keyframes food-bite {
       0%        { transform: scale(1); }
       20%       { transform: scale(0.85) rotate(-3deg); }
@@ -179,7 +179,7 @@
       50%      { transform: rotate(-2.5deg) translateY(3px); }
     }
 
-    .do-drink #cup > g { animation: cup-tilt 1.7s ease-in-out infinite; transform-box: fill-box; transform-origin: 90% 15%; }
+    .do-drink #cup-anim { animation: cup-tilt 1.7s ease-in-out infinite; transform-box: fill-box; transform-origin: 90% 15%; }
     @keyframes cup-tilt {
       0%, 12%, 88%, 100% { transform: rotate(0deg); }
       40%, 62%           { transform: rotate(26deg) translateY(-8px); }
@@ -329,20 +329,24 @@
         <!-- watermelon slice -->
         <g id="food" opacity="0">
           <g transform="translate(26, 192)">
-            <path d="M 30 0 L 60 36 A 42 42 0 0 1 0 36 Z" fill="#f2788a" stroke="#c9556b" stroke-width="2.5"/>
-            <path d="M 0 36 A 42 42 0 0 0 60 36" fill="none" stroke="#7fbf7a" stroke-width="7" stroke-linecap="round"/>
-            <ellipse cx="24" cy="22" rx="2.5" ry="4" fill="#463625" transform="rotate(-15 24 22)"/>
-            <ellipse cx="36" cy="26" rx="2.5" ry="4" fill="#463625" transform="rotate(12 36 26)"/>
-            <ellipse cx="29" cy="34" rx="2.5" ry="4" fill="#463625"/>
+            <g id="food-anim">
+              <path d="M 30 0 L 60 36 A 42 42 0 0 1 0 36 Z" fill="#f2788a" stroke="#c9556b" stroke-width="2.5"/>
+              <path d="M 0 36 A 42 42 0 0 0 60 36" fill="none" stroke="#7fbf7a" stroke-width="7" stroke-linecap="round"/>
+              <ellipse cx="24" cy="22" rx="2.5" ry="4" fill="#463625" transform="rotate(-15 24 22)"/>
+              <ellipse cx="36" cy="26" rx="2.5" ry="4" fill="#463625" transform="rotate(12 36 26)"/>
+              <ellipse cx="29" cy="34" rx="2.5" ry="4" fill="#463625"/>
+            </g>
           </g>
         </g>
 
         <!-- water cup -->
         <g id="cup" opacity="0">
           <g transform="translate(28, 194)">
-            <rect x="0" y="0" width="42" height="50" rx="7" fill="#dbeafd" stroke="#6f9cc4" stroke-width="3"/>
-            <rect x="4" y="10" width="34" height="36" rx="5" fill="#a8cef0" stroke="none"/>
-            <path d="M 32 2 L 44 -26" stroke="#f2a4c6" stroke-width="5" stroke-linecap="round"/>
+            <g id="cup-anim">
+              <rect x="0" y="0" width="42" height="50" rx="7" fill="#dbeafd" stroke="#6f9cc4" stroke-width="3"/>
+              <rect x="4" y="10" width="34" height="36" rx="5" fill="#a8cef0" stroke="none"/>
+              <path d="M 32 2 L 44 -26" stroke="#f2a4c6" stroke-width="5" stroke-linecap="round"/>
+            </g>
           </g>
           <g id="gulp-drops" fill="#a8cef0">
             <circle cx="66" cy="180" r="4"/>
